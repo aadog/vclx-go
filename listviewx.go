@@ -12,7 +12,7 @@ import (
 var _AutoListViewExclude map[uintptr][]int = map[uintptr][]int{}
 var _SetupListViewCheckBoxsOnCb map[uintptr]func(sender vcl.IObject, item *vcl.TListItem) = map[uintptr]func(sender vcl.IObject, item *vcl.TListItem){}
 
-//安装list自动宽度
+// 安装list自动宽度
 func ListViewSetupAutoWidth(lv *vcl.TListView, excludes ...int) {
 	_AutoListViewExclude[lv.Instance()] = excludes
 	lv.SetAutoWidthLastColumn(false)
@@ -44,9 +44,9 @@ func ListViewSetupAutoWidth(lv *vcl.TListView, excludes ...int) {
 }
 func ListViewCheckedAutoCallBack(item *vcl.TListItem, ls *arraylist.ArrayList) {
 	iv, ok := ls.Get(int(item.Index()))
-	d:=iv.(*dict.Dict)
+	d := iv.(*dict.Dict)
 	if ok == true {
-		d.Set("checked",!d.GetBool("checked"))
+		d.Set(":checked", !d.GetBool(":checked"))
 	}
 }
 func ListViewSetupAutoChecked(lv *vcl.TListView, witdh int, onchecked func(sender vcl.IObject, item *vcl.TListItem)) {
@@ -72,7 +72,8 @@ func ListViewSetupAutoChecked(lv *vcl.TListView, witdh int, onchecked func(sende
 	lv.SetOnMouseDown(func(sender vcl.IObject, button types.TMouseButton, shift types.TShiftState, x, y int32) {
 		listview := vcl.AsListView(sender)
 		onchecked = _SetupListViewCheckBoxsOnCb[sender.Instance()]
-		if listview.Checkboxes() && x <= int32(witdh) { //16= f.stateImages.Width
+		//if listview.Checkboxes() && x <= int32(witdh) { //16= f.stateImages.Width
+		if x <= int32(witdh) { //16= f.stateImages.Width
 			item := listview.GetItemAt(x, y)
 			if item != nil {
 				idx := item.Index()
@@ -94,7 +95,8 @@ func ListViewSetupAutoChecked(lv *vcl.TListView, witdh int, onchecked func(sende
 		}
 	})
 }
-//返回当前运行时间
+
+// 返回当前运行时间
 func RunTimeS(st time.Time) string {
 	etm := time.Since(st)
 	return fmt.Sprintf("%02d时 %02d分 %02d秒", int(etm.Hours())%60, int(etm.Minutes())%60, int(etm.Seconds())%60)
