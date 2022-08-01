@@ -3,7 +3,6 @@ package vclx
 import (
 	"fmt"
 	"github.com/aadog/dict-go"
-	"github.com/praveen001/ds/list/arraylist"
 	"github.com/ying32/govcl/vcl"
 	"github.com/ying32/govcl/vcl/types"
 	"time"
@@ -42,9 +41,8 @@ func ListViewSetupAutoWidth(lv *vcl.TListView, excludes ...int) {
 		}
 	})
 }
-func ListViewCheckedAutoCallBack(item *vcl.TListItem, ls *arraylist.ArrayList) {
-	iv, ok := ls.Get(int(item.Index()))
-	d := iv.(*dict.Dict)
+func ListViewCheckedAutoCallBack(item *vcl.TListItem, ls *dict.DictList) {
+	d, ok := ls.Get(int(item.Index()))
 	if ok == true {
 		d.Set(":checked", !d.GetBool(":checked"))
 	}

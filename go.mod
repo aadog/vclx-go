@@ -3,8 +3,7 @@ module github.com/aadog/vclx-go
 go 1.19
 
 require (
-	github.com/aadog/dict-go v0.0.0-20220725142031-daaad0133043
-	github.com/praveen001/ds v0.0.0-20190224061922-2a4952473836
+	github.com/aadog/dict-go v0.0.0-20220728164017-1e70c1f66de0
 	github.com/ying32/govcl v2.2.0+incompatible
 )
 
