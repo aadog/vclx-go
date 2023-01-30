@@ -11,7 +11,7 @@ import (
 var _AutoListViewExclude map[uintptr][]int = map[uintptr][]int{}
 var _SetupListViewCheckBoxsOnCb map[uintptr]func(sender vcl.IObject, item *vcl.TListItem) = map[uintptr]func(sender vcl.IObject, item *vcl.TListItem){}
 
-// 安装list自动宽度
+// ListViewSetupAutoWidth 安装list自动宽度
 func ListViewSetupAutoWidth(lv *vcl.TListView, excludes ...int) {
 	_AutoListViewExclude[lv.Instance()] = excludes
 	lv.SetAutoWidthLastColumn(false)
@@ -41,12 +41,16 @@ func ListViewSetupAutoWidth(lv *vcl.TListView, excludes ...int) {
 		}
 	})
 }
+
+// ListViewCheckedAutoCallBack listview选中回调
 func ListViewCheckedAutoCallBack(item *vcl.TListItem, ls *dict.DictList) {
 	d, ok := ls.Get(int(item.Index()))
 	if ok == true {
 		d.Set(":checked", !d.GetBool(":checked"))
 	}
 }
+
+// ListViewSetupAutoChecked listview安装checkbox控件
 func ListViewSetupAutoChecked(lv *vcl.TListView, witdh int, onchecked func(sender vcl.IObject, item *vcl.TListItem)) {
 	_SetupListViewCheckBoxsOnCb[lv.Instance()] = onchecked
 	var checkboxbytes = []byte("\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x10\x00\x00\x00 \b\x02\x00\x00\x00\x94\xebo\x9b\x00\x00\x00\x06tRNS\x00\x00\x00\x00\x00\x00n\xa6\a\x91\x00\x00\x00yIDATx\x9cc`\xa0\x13\xf0Y\xf0T\xb4\xf9.~\x04T\x83\xd0\x00\xe4\u05ee\xbd\x82\x1f\x01ՠk\xf8\x8f\x1b\x8cj\x18\xcc\x1aH\x88i\x92\xd3\xd2 \x04\x15\x9b\xa3\xfd\xe6h\xe0G@5\b\r\x04UC\x10\xb1\x1a\x80\xf1@\x82\x06x\xdc\x11\xa5\x01Y5a\rh\xaa\xb1h@\x96\xc3T\x8d\xae\x01Y\x05V\xd5\xd8m@\x06D\x05+\x1e\xd58=\x8dK5\t\x11\x87E\x03\xc9i\x89x\x00\x00y\xe7w\x8dM;\xd9\xc9\x00\x00\x00\x00IEND\xaeB`\x82")
@@ -91,6 +95,13 @@ func ListViewSetupAutoChecked(lv *vcl.TListView, witdh int, onchecked func(sende
 				}
 			}
 		}
+	})
+}
+
+// GetListViewCheckList 获取选中得数据
+func GetListViewCheckList(dl *dict.DictList) *dict.DictList {
+	return dl.Filter(func(v *dict.Dict, index int) bool {
+		return v.GetBool(`:checked`)
 	})
 }
 
